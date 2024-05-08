@@ -1,6 +1,7 @@
 package com.matheusob25.workshop_spring_mongodb.services;
 
 import com.matheusob25.workshop_spring_mongodb.domain.User;
+import com.matheusob25.workshop_spring_mongodb.dto.UserDTO;
 import com.matheusob25.workshop_spring_mongodb.repository.UserRepository;
 import com.matheusob25.workshop_spring_mongodb.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,12 @@ public class UserService {
     public User findById(String id) {
        Optional<User> user = userRepository.findById(id);
         return user.orElseThrow(() -> new ObjectNotFoundException("Object not found"));
+    }
+    public User insert(User user) {
+        return userRepository.save(user);
+    }
+    public User fromDTO(UserDTO userDTO) {
+        return new User(userDTO.getId(), userDTO.getName(), userDTO.getEmail());
     }
 
 }
