@@ -1,5 +1,6 @@
 package com.matheusob25.workshop_spring_mongodb.resources;
 
+import com.matheusob25.workshop_spring_mongodb.domain.Post;
 import com.matheusob25.workshop_spring_mongodb.domain.User;
 import com.matheusob25.workshop_spring_mongodb.dto.UserDTO;
 import com.matheusob25.workshop_spring_mongodb.services.UserService;
@@ -51,6 +52,12 @@ public class UserResource {
         user.setId(id);
         user = userService.update(user);
         return ResponseEntity.noContent().build();
+    }
+    @RequestMapping(value = "/{id}/posts",method = RequestMethod.GET)
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id){
+        User user = userService.findById(id);
+
+        return ResponseEntity.ok().body(user.getPosts());
     }
 
 }
