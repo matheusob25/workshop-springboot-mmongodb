@@ -1,13 +1,11 @@
 package com.matheusob25.workshop_spring_mongodb.resources;
 
 import com.matheusob25.workshop_spring_mongodb.domain.Post;
+import com.matheusob25.workshop_spring_mongodb.resources.util.URL;
 import com.matheusob25.workshop_spring_mongodb.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,4 +27,12 @@ public class PostResource {
         List<Post> posts = postService.findAll();
         return ResponseEntity.ok().body(posts);
     }
+
+    @RequestMapping(value = "/titlesearch",method = RequestMethod.GET)
+    public ResponseEntity<List<Post>> findByTitle(@RequestParam(value = "text", defaultValue = "") String title){
+        title = URL.decodeParams(title.trim());
+        List<Post> posts = postService.findByTitleContaining(title);
+        return ResponseEntity.ok().body(posts);
+    }
+
 }
