@@ -4,8 +4,10 @@ import com.matheusob25.workshop_spring_mongodb.domain.Post;
 import com.matheusob25.workshop_spring_mongodb.repository.PostRepository;
 import com.matheusob25.workshop_spring_mongodb.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,5 +28,10 @@ public class PostService {
     }
     public List<Post> findByTitleContaining(String title) {
         return postRepository.findByTitle(title);
+    }
+
+    public List<Post> fullSearch(String text, LocalDate minDate, LocalDate maxDate) {
+        maxDate = maxDate.plusDays(1);
+        return postRepository.fullSearch(text, minDate, maxDate);
     }
 }
